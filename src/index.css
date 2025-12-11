@@ -1,0 +1,57 @@
+/* Reset default margins/padding */
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;   /* Prevent left-right scrolling */
+}
+
+/* Ensure box sizing */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+/* Layout for entire app: Header + Content + Footer */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* Content wrapper to grow in middle */
+.app-content {
+  flex: 1 0 auto;
+}
+
+/* Footer sticky at bottom */
+.app-footer {
+  flex-shrink: 0;
+}
+
+/* Make header and footer full width with no margin/padding */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+* {
+  box-sizing: border-box;
+}
+/* Ensure app spans full width & height without spacing */
+body, html, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+/* Remove padding around header and footer */
+header, footer {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
