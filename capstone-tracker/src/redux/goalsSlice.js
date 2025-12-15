@@ -1,30 +1,56 @@
 // src/redux/goalsSlice.js
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import api from "../services/api";
+
+// Fetch goals
+export const fetchGoals = createAsyncThunk(
+  "goals/fetchGoals",
+  async (_, thunkAPI) => {
+    try {
+      const response = await api.get("/goals/");
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+// Create goal
+export const createGoal = createAsyncThunk(
+  "goals/createGoal",
+  async (goalData, thunkAPI) => {
+    try {
+      const response = await api.post("/goals/", goalData);
+      thunkAPI.dispatch(fetchGoals()); // refresh
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
 
 const goalsSlice = createSlice({
   name: "goals",
   initialState: {
-    list: [], // [{id, step_goal, calorie_goal}]
+    goals: [],
+    loading: false,
+    error: null,
   },
-  reducers: {
-    addGoal: (state, action) => {
-      state.list.push({
-        id: Date.now(),
-        ...action.payload,
+  reducers: {},
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchGoals.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(fetchGoals.fulfilled, (state, action) => {
+        state.loading = false;
+        state.goals = action.payload;
+      })
+      .addCase(fetchGoals.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
       });
-    },
-    updateGoal: (state, action) => {
-      const { id, step_goal, calorie_goal } = action.payload;
-      const index = state.list.findIndex((g) => g.id === id);
-      if (index !== -1) {
-        state.list[index] = { id, step_goal, calorie_goal };
-      }
-    },
-    deleteGoal: (state, action) => {
-      state.list = state.list.filter((g) => g.id !== action.payload);
-    },
   },
 });
 
-export const { addGoal, updateGoal, deleteGoal } = goalsSlice.actions;
 export default goalsSlice.reducer;

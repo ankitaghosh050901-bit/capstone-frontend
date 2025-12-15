@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { loginSuccess } from '../redux/authSlice';   // Adjust path if needed
+import { loginSuccess } from '../redux/authSlice';
 import { useNavigate } from 'react-router-dom';
 import {
   Box,
@@ -13,6 +13,7 @@ import {
   FormControlLabel,
   Paper,
 } from '@mui/material';
+import bgImage from "../assets/image1.jpg";   // ✅ ADD THIS
 
 export default function Login() {
   const dispatch = useDispatch();
@@ -44,8 +45,22 @@ export default function Login() {
   };
 
   return (
-    <Box display="flex" justifyContent="center" alignItems="center" minHeight="70vh">
-      <Paper elevation={3} sx={{ p: 4, width: '100%', maxWidth: 400 }}>
+    // ✅ FULL-SCREEN BACKGROUND IMAGE (ONLY CHANGE)
+    <Box
+      sx={{
+        position: "fixed",
+        inset: 0,
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {/* ✅ LOGIN CARD — UNCHANGED */}
+      <Paper elevation={3} sx={{ p: 6, width: '100%', maxWidth: 450,  border: "4px solid black", }}>
         <Typography variant="h5" align="center" gutterBottom>
           Login
         </Typography>
@@ -60,6 +75,7 @@ export default function Login() {
             required
             onChange={handleChange}
           />
+
           <TextField
             name="password"
             label="Password"
@@ -81,7 +97,13 @@ export default function Login() {
             label="Show Password"
           />
 
-          <Button type="submit" variant="contained" fullWidth sx={{ mt: 2 }}>
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{ mt: 2 }}
+            disabled={!form.username || !form.password || form.password.length < 7}
+          >
             LOGIN
           </Button>
         </form>

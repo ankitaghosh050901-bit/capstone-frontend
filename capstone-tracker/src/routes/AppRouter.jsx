@@ -9,8 +9,6 @@ import Register from './pages/Register';
 import Home from './pages/Home';
 import Activities from './pages/Activities';
 import Goals from './pages/Goals';
-import Tracking from "./pages/Tracking";
-
 
 
 
@@ -48,7 +46,6 @@ export default function App() {
       <Route path="/activities" element={<Layout><Activities /></Layout>} />
       
      < Route path="/goals" element={<Layout><Goals /></Layout>} />
-      < Route path="/Tracking" element={<Layout><Tracking/></Layout>} />
      
 
 
